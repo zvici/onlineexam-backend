@@ -159,16 +159,14 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
     user.codePasswordRetrieval = randomCharacter(50);
     user.save();
     var transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
+      service: "gmail",
       auth: {
-        user: "francesco.anderson87@ethereal.email",
-        pass: "BN4Ag23BMgCgacv9Mr",
+        user: "nhatranthanh115@gmail.com",
+        pass: "matkhaucc",
       },
     });
     var mailOptions = {
-      from: "Thanh Nhã <francesco.anderson87@ethereal.email>",
+      from: "Thanh Nhã <nhatranthanh115@gmail.com>",
       to: `${req.body.email}`,
       subject: "Password Retrieval",
       html: `<div
