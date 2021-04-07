@@ -159,13 +159,15 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
   if (user) {
     user.codePasswordRetrieval = randomCharacter(50);
     user.save();
-    var transporter = nodemailer.createTransport(smtpTransport({
-      service: "gmail",
-      auth: {
-        user: "nhatranthanh115@gmail.com",
-        pass: "matkhaucc",
-      },
-    }));
+    var transporter = nodemailer.createTransport(
+      smtpTransport({
+        service: "gmail",
+        auth: {
+          user: "nhatranthanh115@gmail.com",
+          pass: "matkhaucc",
+        },
+      })
+    );
     var mailOptions = {
       from: "Thanh Nhã <nhatranthanh115@gmail.com>",
       to: `${req.body.email}`,
@@ -499,8 +501,10 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
       }
     });
   } else {
-    res.status(404);
-    throw new Error("Email Not Found");
+    // res.status(404);
+    // throw new Error("Email Not Found");
+
+    res.json({ message: "ll!" });
   }
 });
 
