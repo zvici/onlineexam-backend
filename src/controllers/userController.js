@@ -150,14 +150,13 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 // @desc   PasswordRetrieval
-// @route  POST /api/users/passwordretrieval
+// @route  POST /api/users/password-retrieval
 // @access Public
 const passwordRetrieval = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
   if (user) {
-    const newPassword = randomPassoword(6);
-    user.password = newPassword;
+    user.codePasswordRetrieval = randomCharacter(50);
     user.save();
     var transporter = nodemailer.createTransport({
       service: "gmail",
@@ -243,7 +242,7 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
                       valign="middle"
                     >
                       <a
-                        href="https://hufionlineexam.web.app"
+                        href="https://hufionlineexam.web.app/"
                         style="display: block"
                         target="_blank"
                         ><img
@@ -344,7 +343,7 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
                         >
                           <div>
                             <a
-                              href="https://hufionlineexam.web.app/"
+                              href="https://hufionlineexam.web.app/password-retrieval/${user._id}&&${user.codePasswordRetrieval}"
                               style="
                                 background-color: #00e59b;
                                 color: #000000;
@@ -504,8 +503,61 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
   }
 });
 
-// Random ký tự để gửi mail mật khẩu mới
-function randomPassoword(length) {
+// @desc   changePasswordFromEmail
+// @route  POST /api/users/change-password-from-email
+// @access Public
+const changePasswordFromEmail = asyncHandler(async (req, res) => {
+  const { id, password, codePasswordRetrieval } = req.body;
+  const user = await User.findById(id);
+  if (user && codePasswordRetrieval != null) {
+    if (codePasswordRetrieval === user.codePasswordRetrieval) {
+      user.password = password;
+      user.codePasswordRetrieval = null;
+      await user.save();
+      res.json({
+        code: 1,
+        msg: "success",
+        message: "Đổi mật khẩu thành công",
+        data: null,
+      });
+    } else {
+      res.json({
+        code: 0,
+        msg: "fail",
+        message: "Liên kết này bị hỏng, vui lòng gửi lại",
+        data: null,
+      });
+    }
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+
+// @desc   checkPasswordRetrieval
+// @route  POST /api/users/check-password-retrieval
+// @access Public
+const checkPasswordRetrieval = asyncHandler(async (req, res) => {
+  const { id, codePasswordRetrieval } = req.body;
+  const user = await User.findById(id);
+  if (
+    user &&
+    user.codePasswordRetrieval === codePasswordRetrieval &&
+    codePasswordRetrieval != null
+  ) {
+    res.json({
+      code: 1,
+      msg: "true",
+      message: "Đúng",
+      data: null,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+// Random ký tự
+function randomCharacter(length) {
   var result = "";
   var characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -522,4 +574,6 @@ export {
   updateUserProfile,
   getAllUserProfile,
   passwordRetrieval,
+  changePasswordFromEmail,
+  checkPasswordRetrieval,
 };

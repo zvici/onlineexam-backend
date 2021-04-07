@@ -25,6 +25,10 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    codePasswordRetrieval: {
+      type: String,
+      default: null,
+    },
     token: {
       type: String,
       default: null,
