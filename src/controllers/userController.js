@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 import generateToken from "../utils/generateToken.js";
 import smtpTransport from "nodemailer-smtp-transport";
 import nodemailer from "nodemailer";
-
+import mailgun from "mailgun-js";
 // @desc   Auth user and get token
 // @route  POST /api/users/login
 // @access Public
@@ -159,17 +159,14 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
   if (user) {
     user.codePasswordRetrieval = randomCharacter(50);
     user.save();
-    var transporter = nodemailer.createTransport(
-      smtpTransport({
-        service: "gmail",
-        auth: {
-          user: "nhatranthanh115@gmail.com",
-          pass: "matkhaucc",
-        },
-      })
-    );
-    var mailOptions = {
-      from: "Thanh Nhã <nhatranthanh115@gmail.com>",
+    const DOMAIN = 'https://api.mailgun.net/v3/sandboxee5939af97c140f683f5b17ce32fcff4.mailgun.org';
+    const mg = mailgun({
+      apiKey: "065bf149cc598ac8844ce7742b4c5526-e687bab4-a62990df",
+      domain: DOMAIN,
+    });
+    var data = {
+      from:
+        "Mailgun Sandbox <postmaster@sandboxee5939af97c140f683f5b17ce32fcff4.mailgun.org>",
       to: `${req.body.email}`,
       subject: "Password Retrieval",
       html: `<div
@@ -487,9 +484,8 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
     </div>
     `,
     };
-    transporter.sendMail(mailOptions, function (error, info) {
+    mg.messages().send(data, function (error, body) {
       if (error) {
-        console.log(transporter);
         console.log(error);
       } else {
         res.json({
@@ -498,7 +494,6 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
           message: "Vui lòng kiểm tra trong hộp thư email của bạn",
           data: null,
         });
-        console.log("Email sent: " + info.response);
       }
     });
   } else {
