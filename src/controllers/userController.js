@@ -489,6 +489,7 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
     };
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
+        console.log(transporter);
         console.log(error);
       } else {
         res.json({
@@ -501,10 +502,8 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
       }
     });
   } else {
-    // res.status(404);
-    // throw new Error("Email Not Found");
-
-    res.json({ message: "ll!" });
+    res.status(404);
+    throw new Error("Email Not Found");
   }
 });
 
