@@ -162,7 +162,7 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
     var transporter = nodemailer.createTransport(smtpTransport({
       service: "gmail",
       auth: {
-        user: "nhatranthanh115@gmail.com",
+        user: "nhatranthanh117@gmail.com",
         pass: "matkhaucc",
       },
     }));
