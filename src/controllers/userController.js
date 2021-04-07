@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
 import generateToken from "../utils/generateToken.js";
+import smtpTransport from "nodemailer-smtp-transport";
 import nodemailer from "nodemailer";
 
 // @desc   Auth user and get token
@@ -158,13 +159,13 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
   if (user) {
     user.codePasswordRetrieval = randomCharacter(50);
     user.save();
-    var transporter = nodemailer.createTransport({
+    var transporter = nodemailer.createTransport(smtpTransport({
       service: "gmail",
       auth: {
         user: "nhatranthanh115@gmail.com",
         pass: "matkhaucc",
       },
-    });
+    }));
     var mailOptions = {
       from: "Thanh Nhã <nhatranthanh115@gmail.com>",
       to: `${req.body.email}`,
