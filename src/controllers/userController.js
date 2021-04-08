@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
 import generateToken from "../utils/generateToken.js";
 import nodemailer from "nodemailer";
-import cors from "cors";
 
 // @desc   Auth user and get token
 // @route  POST /api/users/login
@@ -168,8 +167,7 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
       },
     });
     var mainOptions = {
-      from:
-        "Thanh Nhã <nhatranthanh115@gmail.com>",
+      from: "Thanh Nhã <nhatranthanh115@gmail.com>",
       to: `${req.body.email}`,
       subject: "Password Retrieval",
       html: `<div
@@ -249,7 +247,7 @@ const passwordRetrieval = asyncHandler(async (req, res) => {
                         style="display: block"
                         target="_blank"
                         ><img
-                          src="https://knn.hufi.edu.vn/knn/images/logo/asset-160.png?width=550"
+                          src="https://64.media.tumblr.com/1a22be449f3faf1bac1835c5b6be4c45/566e823c5a723ea5-74/s2048x3072/c9415bbfdad1cecf3d7ef65f6ab407ab17cfa30b.png"
                           style="
                             margin: 0 auto 0 auto;
                             width: 250px;
