@@ -2,6 +2,8 @@ import asyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
 import generateToken from "../utils/generateToken.js";
 import nodemailer from "nodemailer";
+import cors from "cors";
+
 // @desc   Auth user and get token
 // @route  POST /api/users/login
 // @access Public
