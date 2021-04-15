@@ -2,7 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import colors from "colors";
+
 import userRoutes from "./routes/userRoutes.js";
+import questionsRoutes from "./routes/questionsRoutes.js";
+
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import cors from "cors";
 
@@ -28,6 +31,8 @@ app.get("/api/config/paypal", (req, res) =>
 );
 
 app.use("/api/users", userRoutes);
+
+app.use("/api/questions", questionsRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
