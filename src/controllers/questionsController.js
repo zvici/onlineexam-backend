@@ -8,7 +8,7 @@ const getAllQuestions = asyncHandler(async (req, res) => {
   const questions = await Questions.find({}).sort({ createdAt: -1 });
   if (questions) {
     res.json({
-      code: 1,
+      code: 0,
       msg: "success",
       message: "Danh sách Question",
       data: questions,
