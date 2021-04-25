@@ -1,27 +1,19 @@
-import express from "express";
-import {
-  authUser,
-  getUserProfile,
-  registerUser,
-  updateUserProfile,
-  getAllUserProfile,
-  passwordRetrieval,
-  changePasswordFromEmail,
-  checkPasswordRetrieval,
-} from "../controllers/userController.js";
-import { protect } from "../middleware/authMiddleware.js";
-import cors from "cors";
-const router = express.Router();
+import { authUser } from '../controllers/userController.js'
+import { protect, admin } from '../middleware/authMiddleware.js'
+import express from 'express'
 
-router.route("/").post(registerUser);
-router.post("/login", authUser);
-router.post("/password-retrieval", cors(), passwordRetrieval);
-router.post("/change-password-from-email", changePasswordFromEmail);
-router.post("/check-password-retrieval", checkPasswordRetrieval);
-router.route("/").get(protect, getAllUserProfile);
-router
-  .route("/profile")
-  .get(protect, getUserProfile)
-  .put(protect, updateUserProfile);
+const router = express.Router()
 
-export default router;
+// router.route('/').post(registerUser).get(protect, admin, getUsers)
+router.post('/login', authUser)
+// router
+//   .route('/profile')
+//   .get(protect, getUserProfile)
+//   .put(protect, updateUserProfile)
+// router
+//   .route('/:id')
+//   .delete(protect, admin, deleteUser)
+//   .get(protect, admin, getUserById)
+//   .put(protect, admin, updateUser)
+
+export default router
