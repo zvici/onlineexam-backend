@@ -5,6 +5,7 @@ import connectDB from './config/db.js'
 import colors from 'colors'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import cors from 'cors'
+import dayjs from 'dayjs'
 import uploadRoutes from './routes/uploadRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import subjectRoutes from './routes/subjectRoutes.js'
@@ -27,7 +28,9 @@ app.get('/', (req, res) => {
     code: 0,
     msg: 'success',
     message: 'Welcome to Api Online Exam!',
-    data: null,
+    data: {
+      time: dayjs().format(),
+    },
   })
 })
 
