@@ -1,11 +1,20 @@
-import { protect, admin } from '../middleware/authMiddleware.js'
-import express from 'express'
-import { getSubjects, getSubjectById, createSubject, UpdateSubject } from '../controllers/subjectController.js'
+import { protect, admin } from "../middleware/authMiddleware.js";
+import express from "express";
+import {
+  getSubjects,
+  getSubjectById,
+  createSubject,
+  updateSubject,
+  deleteSubject,
+} from "../controllers/subjectController.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.route('/',admin).get(getSubjects);
-router.route('/:id',admin).get(getSubjectById);
-router.route('/', admin).post(createSubject);
-router.route('/', admin).put(UpdateSubject);
-export default router
+router
+  .route("/", admin)
+  .get(getSubjects)
+  .post(createSubject)
+  .put(updateSubject)
+  .delete(deleteSubject);
+router.route("/:id", admin).get(getSubjectById);
+export default router;

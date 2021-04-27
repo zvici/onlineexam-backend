@@ -56,7 +56,7 @@ const createSubject = asyncHandler(async (req, res) => {
 // @desc   Update one subject
 // @route  Put /api/subjects/
 // @access Public
-const UpdateSubject = asyncHandler(async (req, res) => {
+const updateSubject = asyncHandler(async (req, res) => {
   const { _id, name, user } = req.body;
   if (_id && name && user) {
     let subject = await Subject.findById(_id);
@@ -79,4 +79,29 @@ const UpdateSubject = asyncHandler(async (req, res) => {
     throw new Error("Failure to update subject");
   }
 });
-export { getSubjects, getSubjectById, createSubject, UpdateSubject };
+// @desc   Delete one subject
+// @route  Del /api/subjects/
+// @access Public
+const deleteSubject = asyncHandler(async (req, res) => {
+  const { _id } = req.body;
+  const subject = await Subject.findById(_id);
+  if (subject) {
+    await subject.remove();
+    res.send({
+      code: 0,
+      msg: "success",
+      message: "Subject Removed",
+      data: null,
+    });
+  } else {
+    res.status(404);
+    throw new Error("Subject not found");
+  }
+});
+export {
+  getSubjects,
+  getSubjectById,
+  createSubject,
+  updateSubject,
+  deleteSubject,
+};
