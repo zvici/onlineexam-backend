@@ -8,7 +8,8 @@ import generateToken from '../utils/generateToken.js'
 const authUser = asyncHandler(async (req, res) => {
   const { code, password } = req.body
 
-  const user = await User.findOne({ code })
+  const user = await User.findOne({ code: code })
+
 
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -23,7 +24,8 @@ const authUser = asyncHandler(async (req, res) => {
       avatar: user.avatar,
       token: generateToken(user._id),
     })
-  } else {
+  }
+  else {
     res.status(401)
     throw new Error('Invalid code or password')
   }
