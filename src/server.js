@@ -24,9 +24,9 @@ app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send({
-    code: 1,
+    code: 0,
     msg: 'success',
-    message: 'Welcome to api Online Exam!',
+    message: 'Welcome to Api Online Exam!',
     data: null,
   })
 })
