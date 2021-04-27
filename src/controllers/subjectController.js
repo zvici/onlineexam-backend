@@ -35,17 +35,17 @@ const getSubjectById = asyncHandler(async (req, res) => {
 // @route  Post /api/subjects/
 // @access Public
 const createSubject = asyncHandler(async (req, res) => {
-  const { name, idUser } = req.body;
-  if (name && idUser) {
+  const { name, user } = req.body;
+  if (name && user) {
     let subject = new Subject({
       name: req.body.name,
-      user: req.body.idUser,
+      user: req.body.user,
     });
     let newSubject = await subject.save();
     res.send({
       code: 0,
       msg: "success",
-      message: 'Successfully created subject',
+      message: "Successfully created subject",
       data: newSubject,
     });
   } else {
@@ -56,4 +56,27 @@ const createSubject = asyncHandler(async (req, res) => {
 // @desc   Update one subject
 // @route  Put /api/subjects/
 // @access Public
-export { getSubjects, getSubjectById, createSubject };
+const UpdateSubject = asyncHandler(async (req, res) => {
+  const { _id, name, user } = req.body;
+  if (_id && name && user) {
+    let subject = await Subject.findById(_id);
+    if (subject) {
+      subject.name = name;
+      subject.user = user;
+      let updateSubject = await subject.save();
+      res.send({
+        code: 0,
+        msg: "success",
+        message: "Successfully update subject",
+        data: updateSubject,
+      });
+    } else {
+      res.status(404);
+      throw new Error("Subject not found");
+    }
+  } else {
+    res.status(404);
+    throw new Error("Failure to update subject");
+  }
+});
+export { getSubjects, getSubjectById, createSubject, UpdateSubject };
