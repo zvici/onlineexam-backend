@@ -16,4 +16,5 @@ router
   .get(getSubjectById)
   .delete(protect, admin, deleteSubject)
   .put(protect, admin, updateSubject)
+
 export default router
