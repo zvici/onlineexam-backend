@@ -25,15 +25,19 @@ const getSubjects = asyncHandler(async (req, res) => {
     })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
-  res.send({
-    code: 0,
-    msg: 'success',
-    message: 'List all subject',
-    data: { subjects, page, pages: Math.ceil(count / pageSize) },
-  })
+  if (subjects) {
+    res.send({
+      code: 0,
+      msg: 'success',
+      message: 'List all subject',
+      data: { subjects, page, pages: Math.ceil(count / pageSize) },
+    })
+  } else {
+    throw new Error('Subject not found')
+  }
 })
 
-// @desc   Fetch one subject
+// @desc   Fetch subject detail
 // @route  GET /api/subjects/:id
 // @access Public
 const getSubjectById = asyncHandler(async (req, res) => {

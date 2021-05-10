@@ -1,20 +1,21 @@
-import { protect, admin } from "../middleware/authMiddleware.js";
-import express from "express";
+import { protect, admin } from '../middleware/authMiddleware.js'
+import express from 'express'
 import {
   getChapters,
   getChaptersById,
   createChapters,
   updateChapter,
   deleteChapter,
-} from "../controllers/chapterController.js";
+  getChaptersBySubject,
+} from '../controllers/chapterController.js'
 
-const router = express.Router();
+const router = express.Router()
 
+router.route('/', admin).get(getChapters).post(protect, admin, createChapters)
 router
-  .route("/", admin)
-  .get(getChapters)
-  .post(createChapters)
-  .put(updateChapter)
-  .delete(deleteChapter);
-router.route("/:id", admin).get(getChaptersById);
-export default router;
+  .route('/:id')
+  .get(getChaptersById)
+  .put(protect, admin, updateChapter)
+  .delete(protect, admin, deleteChapter)
+router.route('/subject/:id/').get(getChaptersBySubject)
+export default router
