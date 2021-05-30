@@ -39,7 +39,6 @@ const getQuestionById = asyncHandler(async (req, res) => {
 // @access Public
 const createQuestions = asyncHandler(async (req, res) => {
   const { title, chapter, result, answers, user, level } = req.body
-  res.send(req.body)
   if (title && chapter && result && user && level) {
     let checkUser = await User.findById(user)
     if (checkUser) {
