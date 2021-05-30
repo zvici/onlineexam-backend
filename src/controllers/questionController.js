@@ -39,7 +39,6 @@ const getQuestionById = asyncHandler(async (req, res) => {
 // @access Public
 const createQuestions = asyncHandler(async (req, res) => {
   const { title, chapter, result, answers, user, level } = req.body
-  res.send(req.body)
   if (title && chapter && result && user && level) {
     let checkUser = await User.findById(user)
     if (checkUser) {
@@ -74,6 +73,41 @@ const createQuestions = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc   Fetch all questions by chapter
+// @route  GET /api/questions/chapter/:id
+// @access Public
+const getQuestionsByChapter = asyncHandler(async (req, res) => {
+  const pageSize = 8
+  const page = Number(req.params.pageNumber) ? Number(req.params.pageNumber) : 1
+  const lvl = Number(req.params.level) ? Number(req.params.level) : {}
+
+  const key = req.query.keyword
+    ? {
+        title: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
+    : {}
+  const count = await Question.countDocuments({ subject: req.params.id, level: lvl, ...key })
+  const questions = await Question.find({ subject: req.params.id, level: lvl, ...key })
+    .populate({
+      path: 'user',
+    })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  if (questions) {
+    res.send({
+      code: 0,
+      msg: 'success',
+      data: { questions, page, pages: Math.ceil(count / pageSize) },
+    })
+  } else {
+    res.status(404)
+    throw new Error('Question not found')
+  }
+})
+
 export {
-  getQuestions,getQuestionById, createQuestions
+  getQuestions,getQuestionById, createQuestions, getQuestionsByChapter
 };
