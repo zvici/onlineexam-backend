@@ -1,5 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Question from "../models/question.model.js";
+import User from '../models/user.model.js'
+import Chapter from '../models/chapter.model.js'
 
 // @desc   Fetch all questions
 // @route  GET /api/questions
@@ -32,6 +34,46 @@ const getQuestionById = asyncHandler(async (req, res) => {
     }
 });
 
+// @desc   Create one question
+// @route  Post /api/questions/
+// @access Public
+const createQuestions = asyncHandler(async (req, res) => {
+  const { title, chapter, result, answers, user, level } = req.body
+  res.send(req.body)
+  if (title && chapter && result && user && level) {
+    let checkUser = await User.findById(user)
+    if (checkUser) {
+      let checkChapter = await Chapter.findById(chapter)
+      if (checkChapter) {
+        let question = new Question({
+          title: title,
+          answers: answers,
+          result: result,
+          level: level,
+          chapter: chapter,
+          user: user,
+        })
+        let newQuestion = await question.save()
+        res.send({
+          code: 0,
+          msg: 'success',
+          message: 'Successfully created question',
+          data: newQuestion,
+        })
+      } else {
+        res.status(404)
+        throw new Error('Chapter not found')
+      }
+    } else {
+      res.status(404)
+      throw new Error('User not found')
+    }
+  } else {
+    res.status(404)
+    throw new Error('Failure to create question')
+  }
+})
+
 export {
-  getQuestions,getQuestionById
+  getQuestions,getQuestionById, createQuestions
 };

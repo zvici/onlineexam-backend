@@ -134,27 +134,9 @@ const createUser = asyncHandler(async (req, res) => {
 // @route  Put /api/subjects/
 // @access Public
 const updateUser = asyncHandler(async (req, res) => {
-  const {
-    fullName,
-    email,
-    phone,
-    code,
-    birthday,
-    gender,
-    password,
-    role,
-    avatar,
-  } = req.body
-  if (
-    fullName &&
-    email &&
-    phone &&
-    code &&
-    birthday &&
-    gender &&
-    password &&
-    role
-  ) {
+  const { fullName, email, phone, code, birthday, gender, role, avatar } =
+    req.body
+  if (fullName && email && phone && code && birthday && gender && role) {
     let user = await User.findById(req.params.id)
     if (user) {
       user.fullName = fullName
@@ -163,7 +145,6 @@ const updateUser = asyncHandler(async (req, res) => {
       user.code = code
       user.birthday = birthday
       user.gender = gender
-      user.password = password
       user.role = role
       user.avatar = avatar
       let updateUser = await user.save()
