@@ -3,6 +3,7 @@ import express from "express";
 import {
   createQuestions,
   getQuestions,
+  getQuestionById,
   getQuestionsByChapter,
   updateQuestionsById,
   deleteQuestionsById,
@@ -16,6 +17,6 @@ router
   .get(protect, admin, getQuestions)
   .put(protect, admin, updateQuestionsById)
   .delete(protect, admin, deleteQuestionsById);
-router.route("/chapter/:id/").get(getQuestionsByChapter);
-
+router.route("/chapter/:id/").get(protect, admin, getQuestionsByChapter);
+router.route("/:id").get(protect, admin, getQuestionById);
 export default router;

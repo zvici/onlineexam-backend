@@ -26,7 +26,7 @@ const getQuestionById = asyncHandler(async (req, res) => {
       code: 0,
       msg: "success",
       message: `Info Question`,
-      data: chapter,
+      data: question,
     });
   } else {
     res.status(404);
