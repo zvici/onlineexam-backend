@@ -17,5 +17,5 @@ router
   .get(protect, admin, getQuestions)
   .put(protect, admin, updateQuestionsById);
 router.route("/chapter/:id/").get(protect, admin, getQuestionsByChapter);
-router.route("/:id").get(protect, admin, getQuestionById).delete(protect, admin, deleteQuestionsById);
+router.route("/:id").get(getQuestionById).delete(protect, admin, deleteQuestionsById);
 export default router;

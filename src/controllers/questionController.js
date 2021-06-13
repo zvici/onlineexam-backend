@@ -79,7 +79,8 @@ const createQuestions = asyncHandler(async (req, res) => {
 const getQuestionsByChapter = asyncHandler(async (req, res) => {
   const pageSize = 8
   const page = Number(req.query.pageNumber) ? Number(req.query.pageNumber) : 1
-  const lvl = Number(req.query.level) === 0 ? {} : { level: Number(req.query.level) }
+  const lvl =
+    Number(req.query.level) === 0 ? {} : { level: Number(req.query.level) }
   // const lvl = { level: req.query.level };
 
   const key = req.query.keyword
