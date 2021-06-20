@@ -136,7 +136,7 @@ const createUser = asyncHandler(async (req, res) => {
 const updateUser = asyncHandler(async (req, res) => {
   const { fullName, email, phone, code, birthday, gender, role, avatar } =
     req.body
-  if (fullName && email && phone && code && birthday && gender && role) {
+  if (req.body) {
     let user = await User.findById(req.params.id)
     if (user) {
       user.fullName = fullName
@@ -183,4 +183,62 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, getUsers, getUserById, createUser, updateUser, deleteUser }
+// @desc   Import more user
+// @route  Post /api/users/import
+// @access Public
+const importUser = asyncHandler(async (req, res) => {
+  const users = req.body
+  if (users) {
+    for (let i = 0; i < users.length; i++) {
+      const {
+        fullName,
+        email,
+        phone,
+        code,
+        birthday,
+        gender,
+        password,
+        role,
+        avatar,
+      } = users[i]
+      let user = new User({
+        fullName,
+        email,
+        phone,
+        code,
+        birthday,
+        gender,
+        password,
+        role,
+        avatar,
+      })
+      await user.save()
+      // res.json(newUser)
+      // res.send({
+      //   code: 0,
+      //   msg: 'success',
+      //   message: 'Successfully created user',
+      //   data: newUser,
+      // })
+    }
+    res.send({
+      code: 0,
+      msg: 'success',
+      message: 'User added',
+      data: null,
+    })
+  } else {
+    res.status(404)
+    throw new Error('User created fail')
+  }
+})
+
+export {
+  authUser,
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  importUser,
+}

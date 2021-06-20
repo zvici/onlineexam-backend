@@ -5,6 +5,7 @@ import {
   createUser,
   updateUser,
   deleteUser,
+  importUser,
 } from '../controllers/userController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 import express from 'express'
@@ -12,6 +13,7 @@ import express from 'express'
 const router = express.Router()
 
 router.route('/').get(protect, admin, getUsers).post(protect, admin, createUser)
+router.route('/import').post(protect, admin, importUser)
 router.post('/login', authUser)
 // router
 //   .route('/profile')

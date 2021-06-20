@@ -14,7 +14,7 @@ const router = express.Router();
 router
   .route("/")
   .post(protect, admin, createQuestions)
-  .get(protect, admin, getQuestions)
+  .get(getQuestions)
   .put(protect, admin, updateQuestionsById);
 router.route("/chapter/:id/").get(protect, admin, getQuestionsByChapter);
 router.route("/:id").get(getQuestionById).delete(protect, admin, deleteQuestionsById);
