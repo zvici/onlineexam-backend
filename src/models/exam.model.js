@@ -19,7 +19,10 @@ const examSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    questions: [questionSchema],
+    questions: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'Question',
+    },
     status: {
       type: Number,
       required: true,

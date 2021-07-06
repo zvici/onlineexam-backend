@@ -30,7 +30,7 @@ const getQuestionById = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(404)
-    throw new Error('Chapter not found')
+    throw new Error('Question not found')
   }
 })
 
