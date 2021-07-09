@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 
 const scheduleSchema = mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
     timeStart: {
       type: String,
       required: true,
