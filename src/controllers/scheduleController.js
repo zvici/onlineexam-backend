@@ -43,7 +43,17 @@ const getScheduleById = asyncHandler(async (req, res) => {
   const schedule = await Schedule.findById(req.params.id).populate({
     path: 'user',
   })
-  if (exam) {
+  .populate({
+    path: 'exam',
+    populate: {
+      path: 'questions',
+      model: 'Question'
+    } 
+  })
+  .populate({
+    path: 'attendants', 
+  })
+  if (schedule) {
     res.send({
       code: 0,
       msg: 'success',
