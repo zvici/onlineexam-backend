@@ -1,22 +1,24 @@
-import { protect, admin } from '../middleware/authMiddleware.js'
-import express from 'express'
+import { protect, admin } from "../middleware/authMiddleware.js";
+import express from "express";
 import {
   createSchedules,
   getSchedules,
   getScheduleById,
   updateSchedulesById,
   deleteSchedulesById,
-} from '../controllers/scheduleController.js'
+  getSchedulesByAttendants,
+} from "../controllers/scheduleController.js";
 
-const router = express.Router()
+const router = express.Router();
 
 router
-  .route('/')
+  .route("/")
   .post(protect, admin, createSchedules)
   .get(getSchedules)
-  .put(protect, admin, updateSchedulesById)
+  .put(protect, admin, updateSchedulesById);
+router.route("/attendants/:id").get(getSchedulesByAttendants);
 router
-  .route('/:id')
+  .route("/:id")
   .get(getScheduleById)
-  .delete(protect, admin, deleteSchedulesById)
-export default router
+  .delete(protect, admin, deleteSchedulesById);
+export default router;
