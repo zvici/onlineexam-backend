@@ -41,7 +41,7 @@ const addResult = asyncHandler(async (req, res) => {
           let newResullt = new Result({
             done: answers.map((item) => ({
               question: item.id,
-              choice: item.answer,
+              choice: item.answer === null ? -1 : item.answer,
             })),
             score: score * unit,
             schedule: scheduleId,
