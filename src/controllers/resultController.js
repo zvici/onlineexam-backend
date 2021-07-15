@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import Result from "../models/result.model.js";
 import Schedule from "../models/schedule.model.js";
 
-// @desc   add one schedules
+// @desc   add one result
 // @route  POST /api/result
 // @access Public
 const addResult = asyncHandler(async (req, res) => {
@@ -69,4 +69,22 @@ const addResult = asyncHandler(async (req, res) => {
   }
 });
 
-export { addResult };
+// @desc   get one result
+// @route  GET /api/result/user/:id
+// @access Public
+
+const getResultByUser = asyncHandler(async (req, res) => {
+  const result = await Result.find({
+    user: req.params.id,
+  }).populate({
+    path: "schedule",
+  });
+  res.send({
+    code: 0,
+    msg: "success",
+    message: "List all result",
+    data: result,
+  });
+});
+
+export { addResult, getResultByUser };
