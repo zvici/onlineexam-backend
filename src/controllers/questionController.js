@@ -169,6 +169,36 @@ const deleteQuestionsById = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc   Import more question
+// @route  Post /api/questions/import
+// @access Public
+const importQuestion = asyncHandler(async (req, res) => {
+  const questions = req.body
+  if (questions) {
+    for (let i = 0; i < questions.length; i++) {
+      const { title, answers, level, result, chapter, user } = questions[i]
+      let question = new Question({
+        title,
+        answers,
+        level,
+        result,
+        chapter,
+        user,
+      })
+      await question.save()
+    }
+    res.send({
+      code: 0,
+      msg: 'success',
+      message: 'Questions added',
+      data: null,
+    })
+  } else {
+    res.status(404)
+    throw new Error('Questions created fail')
+  }
+})
+
 export {
   getQuestions,
   getQuestionById,
@@ -176,4 +206,5 @@ export {
   getQuestionsByChapter,
   updateQuestionsById,
   deleteQuestionsById,
+  importQuestion,
 }
