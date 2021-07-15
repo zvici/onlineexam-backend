@@ -7,6 +7,7 @@ import {
   updateChapter,
   deleteChapter,
   getChaptersBySubject,
+  getAllChaptersBySubject,
 } from '../controllers/chapterController.js'
 
 const router = express.Router()
@@ -18,4 +19,5 @@ router
   .put(protect, admin, updateChapter)
   .delete(protect, admin, deleteChapter)
 router.route('/subject/:id/').get(getChaptersBySubject)
+router.route('/subject/all/:id/').get(getAllChaptersBySubject)
 export default router

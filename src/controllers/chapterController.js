@@ -4,10 +4,10 @@ import Subject from '../models/subject.model.js'
 import User from '../models/user.model.js'
 
 // @desc   Fetch all chapter
-// @route  GET /api/chapter
+// @route  GET /api/chapters
 // @access Public
 const getChapters = asyncHandler(async (req, res) => {
-  const chapters = await Chapter.find({})
+  const chapters = await Chapter.find({}).pop
   res.send({
     code: 0,
     msg: 'success',
@@ -65,6 +65,26 @@ const getChaptersBySubject = asyncHandler(async (req, res) => {
     throw new Error('Chapter not found')
   }
 })
+
+// @desc   Fetch one Chapters by subject
+// @route  GET /api/chapters/subject/all/:id
+// @access Public
+const getAllChaptersBySubject = asyncHandler(async (req, res) => {
+  const chapters = await Chapter.find({ subject: req.params.id }).populate({
+    path: 'subject',
+  })
+  if (chapters) {
+    res.send({
+      code: 0,
+      msg: 'success',
+      data: chapters,
+    })
+  } else {
+    res.status(404)
+    throw new Error('Chapter not found')
+  }
+})
+
 // @desc   Create one chapters
 // @route  Post /api/chapters/
 // @access Public
@@ -131,7 +151,6 @@ const updateChapter = asyncHandler(async (req, res) => {
 // @route  Del /api/chapters/
 // @access Public
 const deleteChapter = asyncHandler(async (req, res) => {
-  
   const chapter = await Chapter.findById(req.params.id)
   if (chapter) {
     await chapter.remove()
@@ -153,4 +172,5 @@ export {
   updateChapter,
   deleteChapter,
   getChaptersBySubject,
+  getAllChaptersBySubject,
 }
