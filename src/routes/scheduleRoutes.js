@@ -7,6 +7,7 @@ import {
   updateSchedulesById,
   deleteSchedulesById,
   getSchedulesByAttendants,
+  getAllSchedules,
 } from "../controllers/scheduleController.js";
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router
   .get(getSchedules)
   .put(protect, admin, updateSchedulesById);
 router.route("/attendants/:id").get(getSchedulesByAttendants);
+router.route("/all").get(getAllSchedules);
 router
   .route("/:id")
   .get(getScheduleById)

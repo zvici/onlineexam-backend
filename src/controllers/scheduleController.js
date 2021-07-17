@@ -176,6 +176,25 @@ const deleteSchedulesById = asyncHandler(async (req, res) => {
   }
 })
 
+
+// @desc   Fetch all schedules
+// @route  GET /api/schedules/all
+// @access Public
+const getAllSchedules = asyncHandler(async (req, res) => {
+  const schedules = await Schedule.find()
+    .populate({
+      path: 'user',
+    })
+    .populate({
+      path: 'exam',
+    })
+  res.send({
+    code: 0,
+    msg: 'success',
+    message: 'List all schedules',
+    data: schedules,
+  })
+})
 export {
   getSchedules,
   getScheduleById,
@@ -183,4 +202,5 @@ export {
   updateSchedulesById,
   deleteSchedulesById,
   getSchedulesByAttendants,
+  getAllSchedules,
 }

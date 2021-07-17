@@ -7,7 +7,7 @@ import User from '../models/user.model.js'
 // @route  GET /api/chapters
 // @access Public
 const getChapters = asyncHandler(async (req, res) => {
-  const chapters = await Chapter.find({}).pop
+  const chapters = await Chapter.find({})
   res.send({
     code: 0,
     msg: 'success',

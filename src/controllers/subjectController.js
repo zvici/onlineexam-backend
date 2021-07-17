@@ -37,6 +37,29 @@ const getSubjects = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc   Fetch all subject
+// @route  GET /api/subjects/all
+// @access Public
+const getAllSubjects = asyncHandler(async (req, res) => {
+  const subjects = await Subject.find()
+    .populate({
+      path: 'user',
+    })
+    .sort({
+      createdAt: -1,
+    })
+  if (subjects) {
+    res.send({
+      code: 0,
+      msg: 'success',
+      message: 'List all subject',
+      data: subjects,
+    })
+  } else {
+    throw new Error('Subject not found')
+  }
+})
+
 // @desc   Fetch subject detail
 // @route  GET /api/subjects/:id
 // @access Public
@@ -126,4 +149,5 @@ export {
   createSubject,
   updateSubject,
   deleteSubject,
+  getAllSubjects,
 }
