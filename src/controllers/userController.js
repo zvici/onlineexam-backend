@@ -131,7 +131,7 @@ const createUser = asyncHandler(async (req, res) => {
 })
 
 // @desc   Update one subject
-// @route  Put /api/subjects/
+// @route  Put /api/users/
 // @access Public
 const updateUser = asyncHandler(async (req, res) => {
   const { fullName, email, phone, code, birthday, gender, role, avatar } =
@@ -152,6 +152,32 @@ const updateUser = asyncHandler(async (req, res) => {
         code: 0,
         msg: 'success',
         message: 'Successfully update user',
+        data: updateUser,
+      })
+    } else {
+      res.status(404)
+      throw new Error('User not found')
+    }
+  } else {
+    res.status(404)
+    throw new Error('Failure to update user')
+  }
+})
+
+// @desc   Update one subject
+// @route  Put /api/users/password
+// @access Public
+const updateUserPassword = asyncHandler(async (req, res) => {
+  const { newPassword } = req.body
+  if (req.body) {
+    let user = await User.findById(req.params.id)
+    if (user) {
+      user.password = newPassword
+      let updateUser = await user.save()
+      res.send({
+        code: 0,
+        msg: 'success',
+        message: 'Successfully update user password',
         data: updateUser,
       })
     } else {
@@ -241,4 +267,5 @@ export {
   updateUser,
   deleteUser,
   importUser,
+  updateUserPassword,
 }
