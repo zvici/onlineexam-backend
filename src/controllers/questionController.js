@@ -20,7 +20,8 @@ const getQuestions = asyncHandler(async (req, res) => {
 // @route  GET /api/questions/:id
 // @access Public
 const getQuestionById = asyncHandler(async (req, res) => {
-  const question = await Question.findById(req.params.id)
+  const question = await Question.findById(req.params.id).sort({createdAt: -1})
+
   if (question) {
     res.send({
       code: 0,

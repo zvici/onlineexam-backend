@@ -51,6 +51,8 @@ const getUsers = asyncHandler(async (req, res) => {
     })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
+    .sort({createdAt: -1})
+
   if (users) {
     res.send({
       code: 0,

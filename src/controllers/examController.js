@@ -28,6 +28,8 @@ const getExams = asyncHandler(async (req, res) => {
     })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
+    .sort({createdAt: -1})
+
   res.send({
     code: 0,
     msg: 'success',

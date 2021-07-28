@@ -25,6 +25,7 @@ const getSubjects = asyncHandler(async (req, res) => {
     })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
+    .sort({createdAt: -1})
   if (subjects) {
     res.send({
       code: 0,

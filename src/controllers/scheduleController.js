@@ -28,6 +28,7 @@ const getSchedules = asyncHandler(async (req, res) => {
     })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
+    .sort({createdAt: -1})
   res.send({
     code: 0,
     msg: 'success',
@@ -188,6 +189,7 @@ const getAllSchedules = asyncHandler(async (req, res) => {
     .populate({
       path: 'exam',
     })
+    .sort({createdAt: -1})
   res.send({
     code: 0,
     msg: 'success',
