@@ -54,7 +54,6 @@ const getChaptersBySubject = asyncHandler(async (req, res) => {
     })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
-    .sort({createdAt: -1})
 
   if (chapters) {
     res.send({
@@ -74,8 +73,7 @@ const getChaptersBySubject = asyncHandler(async (req, res) => {
 const getAllChaptersBySubject = asyncHandler(async (req, res) => {
   const chapters = await Chapter.find({ subject: req.params.id }).populate({
     path: 'subject',
-  }).sort({createdAt: -1})
-
+  })
   if (chapters) {
     res.send({
       code: 0,
